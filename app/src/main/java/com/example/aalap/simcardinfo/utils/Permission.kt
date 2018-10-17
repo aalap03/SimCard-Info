@@ -1,4 +1,4 @@
-package com.example.aalap.simcardinfo
+package com.example.aalap.simcardinfo.utils
 
 enum class Permission(var code: Int) {
     READ_PHONE_STATE(1),

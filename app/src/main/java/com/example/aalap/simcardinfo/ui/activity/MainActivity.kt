@@ -1,7 +1,11 @@
-package com.example.aalap.simcardinfo
+package com.example.aalap.simcardinfo.ui.activity
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import com.example.aalap.simcardinfo.ui.adapter.PagerAdapter
+import com.example.aalap.simcardinfo.ui.fragments.PhoneInfoFrag
+import com.example.aalap.simcardinfo.R
+import com.example.aalap.simcardinfo.ui.fragments.SIMFrag
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {

@@ -1,4 +1,4 @@
-package com.example.aalap.simcardinfo
+package com.example.aalap.simcardinfo.ui.adapter
 
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
