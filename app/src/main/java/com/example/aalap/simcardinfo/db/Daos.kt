@@ -4,5 +4,6 @@ interface SimDAO{
 
     fun addSimInfo(sim: Sim)
 
+
     fun getAllSimInfo(): List<Sim>
 }
