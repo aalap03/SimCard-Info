@@ -7,12 +7,11 @@ import com.example.aalap.simcardinfo.App
 
 open class MyViewModel(application: Application):  AndroidViewModel(application) {
 
-    private var simList: List<Sim>? = null
-    private var simDAO: SimDAO? = null
+    var simList: List<Sim> = mutableListOf()
+    var simDAO: SimDAO? = null
 
     constructor() : this(App()) {
         simDAO = App().db()?.getSimDao()
-        simList = simDAO?.getAllSimInfo()
     }
 
     fun getAllSim(): List<Sim>? {

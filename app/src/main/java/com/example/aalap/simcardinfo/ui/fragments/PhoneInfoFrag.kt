@@ -15,9 +15,10 @@ import com.example.aalap.simcardinfo.db.Phone
 import com.example.aalap.simcardinfo.db.PhoneDAO
 import com.example.aalap.simcardinfo.ui.adapter.TitleValueAdapter
 import kotlinx.android.synthetic.main.list_frag.*
+import org.jetbrains.anko.AnkoLogger
 import kotlin.concurrent.thread
 
-class PhoneInfoFrag : Fragment() {
+class PhoneInfoFrag : Fragment(), AnkoLogger {
 
     lateinit var phoneDao: PhoneDAO
     lateinit var adapter: TitleValueAdapter
@@ -70,13 +71,16 @@ class PhoneInfoFrag : Fragment() {
         }
 
 
-        phoneDao.addPhoneInfo(Phone(11, "SECURITY_PATCH", android.os.Build.VERSION.SECURITY_PATCH))
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            phoneDao.addPhoneInfo(Phone(11, "SECURITY_PATCH", android.os.Build.VERSION.SECURITY_PATCH))
+        }
         phoneDao.addPhoneInfo(Phone(12, "TYPE", android.os.Build.TYPE))
         phoneDao.addPhoneInfo(Phone(13, "User", android.os.Build.USER))
         phoneDao.addPhoneInfo(Phone(14, "Sdk_Int", android.os.Build.VERSION.SDK_INT.toString()))
 
         val size = phoneDao.getAllPhoneInfo().size
         list.addAll(phoneDao.getAllPhoneInfo())
+
         activity?.runOnUiThread {
             Toast.makeText(requireContext(), "Phone Added $size", Toast.LENGTH_SHORT)
                     .show()

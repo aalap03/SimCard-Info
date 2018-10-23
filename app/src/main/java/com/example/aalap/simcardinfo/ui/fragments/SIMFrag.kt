@@ -30,7 +30,7 @@ class SIMFrag : Fragment(), AnkoLogger {
 
     lateinit var telephonyManager: TelephonyManager
     lateinit var adapter: TitleValueAdapter
-    val list = mutableListOf<Sim>()
+    var list = mutableListOf<Sim>()
     lateinit var viewModel: MyViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -46,6 +46,7 @@ class SIMFrag : Fragment(), AnkoLogger {
 
         viewModel = ViewModelProviders.of(this)
                 .get(MyViewModel::class.java)
+        list = viewModel.getAllSim() as MutableList<Sim>
 
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
             requestPermissions(arrayOf(Manifest.permission.READ_PHONE_STATE), Permission.READ_PHONE_STATE.code)
@@ -103,7 +104,7 @@ class SIMFrag : Fragment(), AnkoLogger {
 
             val size = simDao.getAllSimInfo().size
             list.addAll(simDao.getAllSimInfo())
-
+            viewModel.simList = simDao.getAllSimInfo()
 
             activity?.runOnUiThread {
                 Toast.makeText(requireContext(), "SIM Added $size", Toast.LENGTH_SHORT)
