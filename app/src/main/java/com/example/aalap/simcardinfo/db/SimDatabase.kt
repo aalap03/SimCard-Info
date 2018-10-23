@@ -5,7 +5,7 @@ import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.content.Context
 
-@Database(entities = [Sim::class, Phone::class], version = 1)
+@Database(entities = [Sim::class, Phone::class], version = 2)
 abstract class SimDatabase : RoomDatabase() {
 
     abstract fun getSimDao(): SimDAO

@@ -1,15 +1,22 @@
 package com.example.aalap.simcardinfo.db
 
-import android.arch.lifecycle.ViewModel
+import android.app.Application
+import android.arch.lifecycle.AndroidViewModel
+import com.example.aalap.simcardinfo.App
 
-class MyViewModel(var list: MutableList<Sim>): ViewModel() {
 
-    var title = "Title"
-    var value = "Value"
+open class MyViewModel(application: Application):  AndroidViewModel(application) {
 
-    fun getAllSimInfo(): MutableList<Sim> {
-        return list
+    private var simList: List<Sim>? = null
+    private var simDAO: SimDAO? = null
+
+    constructor() : this(App()) {
+        simDAO = App().db()?.getSimDao()
+        simList = simDAO?.getAllSimInfo()
     }
 
+    fun getAllSim(): List<Sim>? {
+        return simList
+    }
 
 }

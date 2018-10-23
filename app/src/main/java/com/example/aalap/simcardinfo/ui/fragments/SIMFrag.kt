@@ -26,7 +26,7 @@ import kotlinx.android.synthetic.main.list_frag.*
 import org.jetbrains.anko.AnkoLogger
 import kotlin.concurrent.thread
 
-class SIMFrag: Fragment(), AnkoLogger {
+class SIMFrag : Fragment(), AnkoLogger {
 
     lateinit var telephonyManager: TelephonyManager
     lateinit var adapter: TitleValueAdapter
@@ -47,8 +47,7 @@ class SIMFrag: Fragment(), AnkoLogger {
         viewModel = ViewModelProviders.of(this)
                 .get(MyViewModel::class.java)
 
-
-        if(ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
+        if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
             requestPermissions(arrayOf(Manifest.permission.READ_PHONE_STATE), Permission.READ_PHONE_STATE.code)
         else
             getSimInfo()
@@ -59,14 +58,14 @@ class SIMFrag: Fragment(), AnkoLogger {
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults)
 
-        if(grantResults.isNotEmpty()) {
+        if (grantResults.isNotEmpty()) {
 
-            if(requestCode == Permission.READ_PHONE_STATE.code && grantResults[0] == PackageManager.PERMISSION_GRANTED){
+            if (requestCode == Permission.READ_PHONE_STATE.code && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 //yeyy
                 getSimInfo()
-            }else if(shouldShowRequestPermissionRationale(permissions[0])){
+            } else if (shouldShowRequestPermissionRationale(permissions[0])) {
                 requestPermissions(permissions, requestCode)
-            } else{
+            } else {
                 //neyy
 
                 Toast.makeText(requireContext(), "Fuck you bro", Toast.LENGTH_SHORT)
@@ -81,23 +80,24 @@ class SIMFrag: Fragment(), AnkoLogger {
         val simDao = database.getSimDao()
 
         thread {
-            simDao.addSimInfo(Sim(1, "Network Operator",  telephonyManager.networkOperator))
-            simDao.addSimInfo(Sim(2, "Device Software Version",  telephonyManager.deviceSoftwareVersion))
-            simDao.addSimInfo(Sim(3, "dataActivity",  telephonyManager.dataActivity.toString()))
-            simDao.addSimInfo(Sim(4, "voiceMailNumber",  telephonyManager.voiceMailNumber))
-            simDao.addSimInfo(Sim(5, "simState",  telephonyManager.simState.toString()))
-            simDao.addSimInfo(Sim(6, "simCountryIso",  telephonyManager.simCountryIso))
-            simDao.addSimInfo(Sim(7, "simOperator",  telephonyManager.simOperator))
-            simDao.addSimInfo(Sim(8, "simOperatorName",  telephonyManager.simOperatorName))
-            simDao.addSimInfo(Sim(9, "line1Number",  telephonyManager.line1Number))
+            simDao.addSimInfo(Sim(1, "Network Operator", telephonyManager.networkOperator))
+            simDao.addSimInfo(Sim(2, "Device Software Version", telephonyManager.deviceSoftwareVersion))
+            simDao.addSimInfo(Sim(3, "dataActivity", telephonyManager.dataActivity.toString()))
+            simDao.addSimInfo(Sim(4, "voiceMailNumber", telephonyManager.voiceMailNumber))
+            simDao.addSimInfo(Sim(5, "Sim State", telephonyManager.simState.toString()))
+            simDao.addSimInfo(Sim(6, "Sim Country Iso", telephonyManager.simCountryIso))
+            simDao.addSimInfo(Sim(7, "Sim Operator", telephonyManager.simOperator))
+            simDao.addSimInfo(Sim(8, "Sim OperatorName", telephonyManager.simOperatorName))
+
+            simDao.addSimInfo(Sim(9, "Sim1 Number", telephonyManager.line1Number))
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                simDao.addSimInfo(Sim(10, "IMEI",  telephonyManager.imei))
+                simDao.addSimInfo(Sim(10, "IMEI", telephonyManager.imei))
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                simDao.addSimInfo(Sim(11, "simCarrierId",  telephonyManager.simCarrierId.toString()))
-                simDao.addSimInfo(Sim(12, "simCarrierIdName",  telephonyManager.simCarrierIdName.toString()))
+                simDao.addSimInfo(Sim(11, "Sim Carrier Id", telephonyManager.simCarrierId.toString()))
+                simDao.addSimInfo(Sim(12, "Sim CarrierId Name", telephonyManager.simCarrierIdName.toString()))
             }
 
 
@@ -106,7 +106,7 @@ class SIMFrag: Fragment(), AnkoLogger {
 
 
             activity?.runOnUiThread {
-                Toast.makeText(requireContext(), "SIM Added ${size}", Toast.LENGTH_SHORT)
+                Toast.makeText(requireContext(), "SIM Added $size", Toast.LENGTH_SHORT)
                         .show()
                 adapter = TitleValueAdapter(requireContext(), list.toMutableList())
                 recycler_sim.adapter = adapter

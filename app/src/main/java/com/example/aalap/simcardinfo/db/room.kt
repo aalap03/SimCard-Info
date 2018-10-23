@@ -7,10 +7,10 @@ import android.arch.persistence.room.PrimaryKey
 data class Sim(@PrimaryKey(autoGenerate = true)
                var id: Int,
                var title: String,
-               var info: String)
+               var info: String?)
 
 @Entity(tableName = "phone_info_table")
 data class Phone(@PrimaryKey(autoGenerate = true)
                  var id: Int,
                  var title: String,
-                 var info: String)
+                 var info: String?)
