@@ -12,19 +12,4 @@ abstract class SimDatabase : RoomDatabase() {
 
     abstract fun getPhoneDao(): PhoneDAO
 
-    companion object {
-        var instance: SimDatabase? = null
-
-        fun database(context: Context): SimDatabase? {
-
-            if (instance == null) {
-                instance = Room.databaseBuilder(context, SimDatabase::class.java, "SimDatabase")
-                        .fallbackToDestructiveMigration()
-                        .build()
-            }
-            return instance
-        }
-    }
-
-
 }
