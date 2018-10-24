@@ -7,12 +7,24 @@
     android:orientation="vertical"
     tools:context=".ui.activity.MainActivity">
 
+    <Button
+        android:layout_width="wrap_content"
+        android:text="test"
+        android:id="@+id/test_button"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:id="@+id/test_image"
+        android:layout_height="wrap_content" />
+
     <android.support.design.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:cardElevation="0dp"
         android:layout_margin="10dp"
         app:cardUseCompatPadding="true"
+        android:id="@+id/material_card"
         app:strokeColor="@color/colorPrimary"
         app:strokeWidth="3dp">
 

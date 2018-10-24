@@ -9,10 +9,10 @@ import android.arch.persistence.room.Query
 interface SimDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addSimInfo(sim: Sim)
+    fun addSimInfo(simInfo: SimInfo)
 
     @Query("select * from sim_table")
-    fun getAllSimInfo(): List<Sim>
+    fun getAllSimInfo(): List<SimInfo>
 }
 
 
@@ -20,8 +20,8 @@ interface SimDAO {
 interface PhoneDAO {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun addPhoneInfo(phone: Phone)
+    fun addPhoneInfo(phoneInfo: PhoneInfo)
 
     @Query("select * from phone_info_table")
-    fun getAllPhoneInfo(): List<Phone>
+    fun getAllPhoneInfo(): List<PhoneInfo>
 }

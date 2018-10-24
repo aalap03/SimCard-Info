@@ -2,11 +2,14 @@ package com.example.aalap.simcardinfo.ui.fragments
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.os.Build
 import android.os.Bundle
+import android.os.Environment
 import android.support.v4.app.Fragment
 import android.support.v4.content.ContextCompat
 import android.support.v7.widget.LinearLayoutManager
@@ -14,23 +17,27 @@ import android.telephony.TelephonyManager
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.LinearLayout
 import android.widget.Toast
 import com.example.aalap.simcardinfo.utils.Permission
 import com.example.aalap.simcardinfo.R
 import com.example.aalap.simcardinfo.database
 import com.example.aalap.simcardinfo.db.MyViewModel
-import com.example.aalap.simcardinfo.db.Sim
+import com.example.aalap.simcardinfo.db.SimInfo
 import com.example.aalap.simcardinfo.ui.adapter.TitleValueAdapter
+import com.example.aalap.simcardinfo.utils.Utils
 import kotlinx.android.synthetic.main.list_frag.*
 import org.jetbrains.anko.AnkoLogger
+import java.io.File
+import java.io.FileOutputStream
+import java.lang.StringBuilder
+import java.util.*
 import kotlin.concurrent.thread
 
 class SIMFrag : Fragment(), AnkoLogger {
 
     lateinit var telephonyManager: TelephonyManager
     lateinit var adapter: TitleValueAdapter
-    var list = mutableListOf<Sim>()
+    var list = mutableListOf<SimInfo>()
     lateinit var viewModel: MyViewModel
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -46,12 +53,16 @@ class SIMFrag : Fragment(), AnkoLogger {
 
         viewModel = ViewModelProviders.of(this)
                 .get(MyViewModel::class.java)
-        list = viewModel.getAllSim() as MutableList<Sim>
 
         if (ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED)
             requestPermissions(arrayOf(Manifest.permission.READ_PHONE_STATE), Permission.READ_PHONE_STATE.code)
         else
             getSimInfo()
+
+        test_button.setOnClickListener {
+            var bitmap = Utils().getRecyclerViewScreenshot(recycler_sim)
+            test_image.setImageBitmap(bitmap)
+        }
 
 
     }
@@ -81,30 +92,31 @@ class SIMFrag : Fragment(), AnkoLogger {
         val simDao = database.getSimDao()
 
         thread {
-            simDao.addSimInfo(Sim(1, "Network Operator", telephonyManager.networkOperator))
-            simDao.addSimInfo(Sim(2, "Device Software Version", telephonyManager.deviceSoftwareVersion))
-            simDao.addSimInfo(Sim(3, "dataActivity", telephonyManager.dataActivity.toString()))
-            simDao.addSimInfo(Sim(4, "voiceMailNumber", telephonyManager.voiceMailNumber))
-            simDao.addSimInfo(Sim(5, "Sim State", telephonyManager.simState.toString()))
-            simDao.addSimInfo(Sim(6, "Sim Country Iso", telephonyManager.simCountryIso))
-            simDao.addSimInfo(Sim(7, "Sim Operator", telephonyManager.simOperator))
-            simDao.addSimInfo(Sim(8, "Sim OperatorName", telephonyManager.simOperatorName))
+            simDao.addSimInfo(SimInfo(1, "Network Operator", telephonyManager.networkOperator))
+            simDao.addSimInfo(SimInfo(2, "Device Software Version", telephonyManager.deviceSoftwareVersion))
+            simDao.addSimInfo(SimInfo(3, "dataActivity", telephonyManager.dataActivity.toString()))
+            simDao.addSimInfo(SimInfo(4, "voiceMailNumber", telephonyManager.voiceMailNumber))
+            simDao.addSimInfo(SimInfo(5, "SimInfo State", telephonyManager.simState.toString()))
+            simDao.addSimInfo(SimInfo(6, "SimInfo Country Iso", telephonyManager.simCountryIso))
+            simDao.addSimInfo(SimInfo(7, "SimInfo Operator", telephonyManager.simOperator))
+            simDao.addSimInfo(SimInfo(8, "SimInfo OperatorName", telephonyManager.simOperatorName))
 
-            simDao.addSimInfo(Sim(9, "Sim1 Number", telephonyManager.line1Number))
+            simDao.addSimInfo(SimInfo(9, "Sim1 Number", telephonyManager.line1Number))
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                simDao.addSimInfo(Sim(10, "IMEI", telephonyManager.imei))
+                simDao.addSimInfo(SimInfo(10, "IMEI", telephonyManager.imei))
             }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
-                simDao.addSimInfo(Sim(11, "Sim Carrier Id", telephonyManager.simCarrierId.toString()))
-                simDao.addSimInfo(Sim(12, "Sim CarrierId Name", telephonyManager.simCarrierIdName.toString()))
+                simDao.addSimInfo(SimInfo(11, "SimInfo Carrier Id", telephonyManager.simCarrierId.toString()))
+                simDao.addSimInfo(SimInfo(12, "SimInfo CarrierId Name", telephonyManager.simCarrierIdName.toString()))
             }
 
 
             val size = simDao.getAllSimInfo().size
+            list.clear()
             list.addAll(simDao.getAllSimInfo())
-            viewModel.simList = simDao.getAllSimInfo()
+            viewModel.simInfoList = simDao.getAllSimInfo()
 
             activity?.runOnUiThread {
                 Toast.makeText(requireContext(), "SIM Added $size", Toast.LENGTH_SHORT)
@@ -115,4 +127,5 @@ class SIMFrag : Fragment(), AnkoLogger {
 
         }
     }
+
 }

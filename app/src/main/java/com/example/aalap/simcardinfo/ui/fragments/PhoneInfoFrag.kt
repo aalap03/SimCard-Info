@@ -11,9 +11,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.example.aalap.simcardinfo.R
 import com.example.aalap.simcardinfo.database
-import com.example.aalap.simcardinfo.db.Phone
+import com.example.aalap.simcardinfo.db.PhoneInfo
 import com.example.aalap.simcardinfo.db.PhoneDAO
 import com.example.aalap.simcardinfo.ui.adapter.TitleValueAdapter
+import com.example.aalap.simcardinfo.utils.Utils
 import kotlinx.android.synthetic.main.list_frag.*
 import org.jetbrains.anko.AnkoLogger
 import kotlin.concurrent.thread
@@ -22,7 +23,7 @@ class PhoneInfoFrag : Fragment(), AnkoLogger {
 
     lateinit var phoneDao: PhoneDAO
     lateinit var adapter: TitleValueAdapter
-    var list = mutableListOf<Phone>()
+    var list = mutableListOf<PhoneInfo>()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.list_frag, container, false)
@@ -38,51 +39,55 @@ class PhoneInfoFrag : Fragment(), AnkoLogger {
             addInfo()
         }
 
+        test_button.setOnClickListener {
+            var bitmap = Utils().getRecyclerViewScreenshot(recycler_sim)
+            test_image.setImageBitmap(bitmap)
+        }
     }
 
     @SuppressLint("MissingPermission")
     private fun addInfo() {
 
-        phoneDao.addPhoneInfo(Phone(15, "Board", android.os.Build.BOARD))
-        phoneDao.addPhoneInfo(Phone(16, "Bootloader", android.os.Build.BOOTLOADER))
-        phoneDao.addPhoneInfo(Phone(17, "Brand", android.os.Build.BRAND))
+        phoneDao.addPhoneInfo(PhoneInfo(15, "Board", android.os.Build.BOARD))
+        phoneDao.addPhoneInfo(PhoneInfo(16, "Bootloader", android.os.Build.BOOTLOADER))
+        phoneDao.addPhoneInfo(PhoneInfo(17, "Brand", android.os.Build.BRAND))
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             var abi = 0
             android.os.Build.SUPPORTED_ABIS.forEach {
                 abi++
-                phoneDao.addPhoneInfo(Phone(1, "Supported ABI-$abi", it))
+                phoneDao.addPhoneInfo(PhoneInfo(1, "Supported ABI-$abi", it))
             }
         }
 
-        phoneDao.addPhoneInfo(Phone(1, "Device", android.os.Build.DEVICE))
-        phoneDao.addPhoneInfo(Phone(2, "Display", android.os.Build.DISPLAY))
-        phoneDao.addPhoneInfo(Phone(3, "Fingerprint", android.os.Build.FINGERPRINT))
-        phoneDao.addPhoneInfo(Phone(4, "HARDWARE", android.os.Build.HARDWARE))
-        phoneDao.addPhoneInfo(Phone(5, "HOST", android.os.Build.HOST))
-        phoneDao.addPhoneInfo(Phone(6, "ID", android.os.Build.ID))
-        phoneDao.addPhoneInfo(Phone(7, "MANUFACTURER", android.os.Build.MANUFACTURER))
-        phoneDao.addPhoneInfo(Phone(8, "MODEL", android.os.Build.MODEL))
-        phoneDao.addPhoneInfo(Phone(9, "PRODUCT", android.os.Build.PRODUCT))
+        phoneDao.addPhoneInfo(PhoneInfo(1, "Device", android.os.Build.DEVICE))
+        phoneDao.addPhoneInfo(PhoneInfo(2, "Display", android.os.Build.DISPLAY))
+        phoneDao.addPhoneInfo(PhoneInfo(3, "Fingerprint", android.os.Build.FINGERPRINT))
+        phoneDao.addPhoneInfo(PhoneInfo(4, "HARDWARE", android.os.Build.HARDWARE))
+        phoneDao.addPhoneInfo(PhoneInfo(5, "HOST", android.os.Build.HOST))
+        phoneDao.addPhoneInfo(PhoneInfo(6, "ID", android.os.Build.ID))
+        phoneDao.addPhoneInfo(PhoneInfo(7, "MANUFACTURER", android.os.Build.MANUFACTURER))
+        phoneDao.addPhoneInfo(PhoneInfo(8, "MODEL", android.os.Build.MODEL))
+        phoneDao.addPhoneInfo(PhoneInfo(9, "PRODUCT", android.os.Build.PRODUCT))
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-            phoneDao.addPhoneInfo(Phone(10, "Serial", android.os.Build.getSerial()))
+            phoneDao.addPhoneInfo(PhoneInfo(10, "Serial", android.os.Build.getSerial()))
         }
 
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            phoneDao.addPhoneInfo(Phone(11, "SECURITY_PATCH", android.os.Build.VERSION.SECURITY_PATCH))
+            phoneDao.addPhoneInfo(PhoneInfo(11, "SECURITY_PATCH", android.os.Build.VERSION.SECURITY_PATCH))
         }
-        phoneDao.addPhoneInfo(Phone(12, "TYPE", android.os.Build.TYPE))
-        phoneDao.addPhoneInfo(Phone(13, "User", android.os.Build.USER))
-        phoneDao.addPhoneInfo(Phone(14, "Sdk_Int", android.os.Build.VERSION.SDK_INT.toString()))
+        phoneDao.addPhoneInfo(PhoneInfo(12, "TYPE", android.os.Build.TYPE))
+        phoneDao.addPhoneInfo(PhoneInfo(13, "User", android.os.Build.USER))
+        phoneDao.addPhoneInfo(PhoneInfo(14, "Sdk_Int", android.os.Build.VERSION.SDK_INT.toString()))
 
         val size = phoneDao.getAllPhoneInfo().size
         list.addAll(phoneDao.getAllPhoneInfo())
 
         activity?.runOnUiThread {
-            Toast.makeText(requireContext(), "Phone Added $size", Toast.LENGTH_SHORT)
+            Toast.makeText(requireContext(), "PhoneInfo Added $size", Toast.LENGTH_SHORT)
                     .show()
             adapter = TitleValueAdapter(requireContext(), list.toMutableList())
             recycler_sim.adapter = adapter

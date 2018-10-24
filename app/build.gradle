@@ -86,4 +86,6 @@ dependencies {
 
     implementation "org.jetbrains.anko:anko-commons:$anko_version"
 
+    implementation 'com.itextpdf:itextg:5.5.10'
+
 }
