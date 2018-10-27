@@ -28,7 +28,7 @@ class PagerAdapter(var fragmentManager: FragmentManager) : FragmentPagerAdapter(
         return when (position) {
             0 -> "SIM"
 
-            1 -> "PhoneInfo"
+            1 -> "PHONE"
 
             else -> "Nothing"
         }

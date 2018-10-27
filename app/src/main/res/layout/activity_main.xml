@@ -4,12 +4,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.activity.MainActivity"
     android:orientation="vertical">
 
     <android.support.design.widget.TabLayout
         android:layout_width="match_parent"
         android:id="@+id/tab_layout"
+        app:tabMaxWidth="0dp"
+        app:tabGravity="fill"
+        app:tabMode="fixed"
+        style="@style/AppTabLayout"
         android:layout_height="wrap_content"/>
 
     <android.support.v4.view.ViewPager

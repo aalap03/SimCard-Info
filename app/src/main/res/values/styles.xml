@@ -8,10 +8,33 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="AppTheme_Dark" parent="Theme.AppCompat.Light.DarkActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary_Theme_Dark</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark_Theme_Dark</item>
+        <item name="colorAccent">@color/colorAccent_Theme_Dark</item>
+    </style>
+
     <style name="app_text_lato" parent="AppTheme">
         <item name="android:fontFamily">@font/lato_regular</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textColor">@android:color/black</item>"
+    </style>
+
+    <style name="AppTabLayout" parent="Widget.Design.TabLayout">
+        <item name="tabIndicatorColor">?attr/colorAccent</item>
+        <item name="tabIndicatorHeight">2dp</item>
+        <item name="tabPaddingStart">6dp</item>
+        <item name="tabPaddingEnd">6dp</item>
+        <item name="tabBackground">?attr/colorPrimary</item>
+        <item name="tabTextAppearance">@style/AppTabTextAppearance</item>
+    </style>
+
+    <!-- for text -->
+    <style name="AppTabTextAppearance" parent="TextAppearance.Design.Tab">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="textAllCaps">false</item>
     </style>
 
 </resources>
